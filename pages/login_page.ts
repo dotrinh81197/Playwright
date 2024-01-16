@@ -6,25 +6,29 @@ export default class LoginPage {
     readonly passwordTxt: Locator = this.page.locator('#password');
     readonly loginBtn: Locator = this.page.locator('.btn-login');
     constructor(private readonly page: Page) { }
-  
 
 
-    async enterUsername(username: string){
+    async gotoLoginPage(): Promise<void> {
+        await this.page.goto('http://localhost/TADashboard/login.jsp');
+
+    }
+
+    async enterUsername(username: string) {
         await this.usernameTxt.fill(username);
     }
 
-    async enterPassword(password: string){
+    async enterPassword(password: string) {
         await this.passwordTxt.fill(password);
     }
 
-    async selectRepository(repo: string){
+    async selectRepository(repo: string) {
         await this.repoCbx.selectOption(repo);
     }
-  
+
     async login(username: string, password: string, repo?: string): Promise<void> {
-      if (repo !== null && repo !== undefined) await this.selectRepository(repo);
-      await this.enterUsername(username)
-      await this.enterPassword(password)
-      await this.loginBtn.click();
+        if (repo !== null && repo !== undefined) await this.selectRepository(repo);
+        await this.enterUsername(username)
+        await this.enterPassword(password)
+        await this.loginBtn.click();
     }
-  }
+}
