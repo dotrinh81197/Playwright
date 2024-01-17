@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
+import assert from "assert";
 
 export default class DashboardMainPage {
   readonly globalSettingLnk: Locator = this.page.locator('li').filter({ hasText: 'Global Setting Add Page' }).getByRole('link').first();
@@ -46,52 +47,62 @@ export default class DashboardMainPage {
 
   }
 
-  async gotoPageName(pageName: string): Promise<void> {
+  async gotoPageName(pageName: string, parentPage?: string): Promise<void> {
+    if (parentPage !== undefined && parentPage !== null) {
+      await this.page.getByRole('link', { name: parentPage }).hover();
+    }
     await this.page.getByRole('link', { name: pageName }).click();
 
   }
 
-  async deletePage(pageName: string, errorMessage?: string): Promise<void> {
-    await this.gotoPageName(pageName);
+  async deletePageAndVerifyDialogMessage(pageName: string, parentPage?: string, confirmMessage?: string, errorMessage?: string): Promise<void> {
+    if (parentPage !== undefined && parentPage !== null) {
+      await this.gotoPageName(pageName, parentPage);
+    }
+    else { await this.gotoPageName(pageName);}
+
     await this.hoverGlobalSettingLink();
-    this.page.on('dialog', dialog => dialog.accept());
+
+    this.page.once('dialog', dialog => {
+      dialog.accept();
+      expect(dialog.message().trim()).toEqual(confirmMessage);
+
+      if (errorMessage !== null && errorMessage !== undefined) {
+        this.page.once('dialog', async dialog2 => {
+          expect(dialog2.message().trim()).toEqual(errorMessage);
+          dialog2.dismiss();
+        })
+      }
+    })
+
     await this.deletePageLnk.click();
 
-    if (errorMessage !== null && errorMessage !== undefined) {
-      this.page.on('dialog', async dialog => {
-               expect((dialog.message())).toEqual(errorMessage);
-        dialog.dismiss();
-
-      })
-    }
   }
 
 
-
-
-
-  async verifyNewPageCreated({ newPage }: { newPage: string; }): Promise<void> {
-    await expect(this.page.locator('#main-menu li.active a.active')).toHaveText(newPage);
+  async verifyNewPageCreated(newPage: string): Promise<void> {
     await expect(this.page.getByRole('link', { name: newPage })).toBeVisible();
 
   }
 
-  async verifyPageDeleted(newPage: string): Promise<void> {
-    await expect(this.page.locator('#main-menu li.active a.active')).not.toHaveText(newPage);
+  async verifyPageDeleted(pageName: string): Promise<void> {
+    await expect(this.page.getByRole('link', { name: pageName })).not.toBeVisible();
+    await expect(this.page.locator('#main-menu li.active a.active')).not.toHaveText(pageName);
   }
 
-  async deleteAllPage(): Promise<void> {
-    //   const pageChild = this.page.locator('xpath=//li//a[@class="haschild"]');
-    //   const pageHasChild = this.page.locator('xpath=//li[@class="haschild"]');
+  async removePage(pageName: string, parentName?: string): Promise<void> {
+    if (parentName !== null && parentName !== undefined) {
+      await this.page.getByRole('link', { name: parentName }).hover();
 
-    // for (let i = 0; i < await pageHasChild.count(); i++) {
-    //   await this.page.locator('xpath=//li[@class="haschild"]').hover();
-    //   pageHasChild.nth(i).hover();
+    }
 
-    //   await this.hoverGlobalSettingLink();
-    //   await this.deletePageLnk.click();
-    //   this.page.on('dialog', dialog => dialog.accept());
-    // }
+    await this.page.getByRole('link', { name: pageName }).click();
+    await this.hoverGlobalSettingLink();
 
+    this.page.once('dialog', async dialog => {
+      await dialog.accept();
+    })
+
+    await this.deletePageLnk.click();
   }
 }
