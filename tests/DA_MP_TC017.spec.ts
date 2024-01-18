@@ -35,6 +35,7 @@ test('Verify that user can remove any main parent page except "Overview" page su
     await dashboardMainPage.deletePageAndVerifyDialogMessage(pageHasChild, undefined,confirmMessage);
     await dashboardMainPage.verifyPageDeleted(pageHasChild);
 
+    //verify Delete link for Overview page is not display
     await dashboardMainPage.gotoPageName("Overview");
     await dashboardMainPage.hoverGlobalSettingLink();
     await expect(dashboardMainPage.deletePageLnk).not.toBeVisible();

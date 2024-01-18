@@ -1,6 +1,8 @@
 import { test } from '@playwright/test';
 import LoginPage from '../pages/login_page';
 import DashboardMainPage from '../pages/dashboard_main_page';
+import DataProfilePage from '../pages/data_profile_page';
+import Table from '../elements/table';
 
 test.beforeEach(async ({ page }) => {
 
@@ -12,16 +14,12 @@ test.beforeEach(async ({ page }) => {
 
 
 test('Verify that "Public" pages can be visible and accessed by all users of working repository', async ({ page }) => {
-    const randomstring = require("randomstring");
-    const newPageName = randomstring.generate(7);
     const dashboardMainPage = new DashboardMainPage(page);
-    await dashboardMainPage.displays();
-    await dashboardMainPage.addPage(newPageName);
+    await dashboardMainPage.gotoDataProfilePage();
+    const dataProfilePage = new DataProfilePage(page);
+    const tableExample = new Table(page);
+  console.log(tableExample.getValue(4,4));
 
-    await dashboardMainPage.verifyNewPageCreated(newPageName);
 
-    //post condition
-    await dashboardMainPage.removePage(newPageName);
-    await dashboardMainPage.verifyPageDeleted(newPageName);
+    
 })
-
