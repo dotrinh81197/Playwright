@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { allure } from "allure-playwright";
-import { Severity } from "allure-js-commons";
 import LoginPage from '../pages/login_page';
 import DashboardMainPage from '../pages/dashboard_main_page';
 

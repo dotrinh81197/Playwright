@@ -1,5 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
-import assert from "assert";
+import BasePage from "./data_profile_page";
 
 export default class DashboardMainPage {
   readonly globalSettingLnk: Locator = this.page.locator('li').filter({ hasText: 'Global Setting Add Page' }).getByRole('link').first();
@@ -12,6 +12,11 @@ export default class DashboardMainPage {
   readonly publicCb: Locator = this.page.locator("#ispublic");
   readonly OKbtn: Locator = this.page.locator("#OK");
   readonly Cancelbtn: Locator = this.page.locator("#Cancel");
+  readonly administratorHeaderLink: Locator = this.page.getByRole('link', { name: 'Administer' });
+  readonly pannelLink: Locator = this.page.getByRole('link', { name: 'Panels', exact: true });
+  readonly dataProfilLink: Locator = this.page.getByRole('link', { name: 'Data Profiles'});
+
+
 
 
   constructor(public page: Page) { }
@@ -47,6 +52,19 @@ export default class DashboardMainPage {
 
   }
 
+
+  async gotoPannelPage(): Promise<void> {
+    await this.administratorHeaderLink.hover();
+    await this.pannelLink.click();
+  }
+
+  async gotoDataProfilePage(): Promise<void> {
+    await this.administratorHeaderLink.hover();
+    await this.dataProfilLink.click();
+  }
+
+
+
   async gotoPageName(pageName: string, parentPage?: string): Promise<void> {
     if (parentPage !== undefined && parentPage !== null) {
       await this.page.getByRole('link', { name: parentPage }).hover();
@@ -59,17 +77,18 @@ export default class DashboardMainPage {
     if (parentPage !== undefined && parentPage !== null) {
       await this.gotoPageName(pageName, parentPage);
     }
-    else { await this.gotoPageName(pageName);}
+    else { await this.gotoPageName(pageName); }
 
     await this.hoverGlobalSettingLink();
 
+    //verify dialog messages
     this.page.once('dialog', dialog => {
       dialog.accept();
-      expect(dialog.message().trim()).toEqual(confirmMessage);
+      expect.soft(dialog.message().trim()).toEqual(confirmMessage);
 
       if (errorMessage !== null && errorMessage !== undefined) {
         this.page.once('dialog', async dialog2 => {
-          expect(dialog2.message().trim()).toEqual(errorMessage);
+          expect.soft(dialog2.message().trim()).toEqual(errorMessage);
           dialog2.dismiss();
         })
       }
@@ -93,7 +112,6 @@ export default class DashboardMainPage {
   async removePage(pageName: string, parentName?: string): Promise<void> {
     if (parentName !== null && parentName !== undefined) {
       await this.page.getByRole('link', { name: parentName }).hover();
-
     }
 
     await this.page.getByRole('link', { name: pageName }).click();
@@ -105,4 +123,5 @@ export default class DashboardMainPage {
 
     await this.deletePageLnk.click();
   }
+
 }
