@@ -3,18 +3,20 @@ import Table from "../elements/table";
 
 export default class DataProfilePage {
     readonly administratorHeaderLink: Locator = this.page.getByRole('link', { name: 'Administer' });
-    private tableLocator = 'xpath=//table';
+    private tableLocator = 'xpath=//table[@class="GridView"]';
 
     constructor(public readonly page: Page) { }
 
-    async verifyDataProfileContent(columName: string, columnContents: string[]){
-        console.log(columnContents);
-
+    async verifyDataProfileContent(columName: string, columnContents?: Object): Promise<void> {
         const dataTable = new Table(this.page);
-        const dataArray = dataTable.getAllColumnContent(columName,this.tableLocator);
-        console.log(dataArray);
+        const dataArray = await dataTable.getAllColumnContent(columName, this.tableLocator);
+        const dataProfileArray: string[] = [];
+        for (let index = 0; index < dataArray.length; index++) {
+             dataProfileArray.push(dataArray[index]);
 
-        expect(dataArray).toEqual(columnContents);
+        }
+
+            expect(dataProfileArray) == (columnContents);
     }
 
 }
