@@ -1,0 +1,22 @@
+[{
+    "DataProfile1": "Action Implementation By Status",
+    "DataProfile2": "Functional Tests",
+    "DataProfile3": "Test Case Execution",
+    "DataProfile4": "Test Case Execution Failure Trend",
+    "DataProfile5": "Test Case Execution History",
+    "DataProfile6": "Test Case Execution Results",
+    "DataProfile7": "Test Case Execution Trend",
+    "DataProfile8": "Test Module Execution",
+    "DataProfile9": "Test Module Execution Failure Trend",
+    "DataProfile10": "Test Module Execution Failure Trend by Build",
+    "DataProfile11": "Test Module Execution History",
+    "DataProfile12": "Test Module Execution Results",
+    "DataProfile13": "Test Module Execution Results Report",
+    "DataProfile14": "Test Module Execution Trend",
+    "DataProfile15": "Test Module Execution Trend by Build",
+    "DataProfile16": "Test Module Implementation By Priority",
+    "DataProfile17": "Test Module Implementation By Status",
+    "DataProfile18": "Test Module Status per Assigned Users",
+    "DataProfile19": "Test Objective Execution"
+}
+]

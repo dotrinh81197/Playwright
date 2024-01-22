@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
-import Table from "../elements/table";
+import Table from "../element/tablehandle";
 
 export default class DataProfilePage {
     readonly administratorHeaderLink: Locator = this.page.getByRole('link', { name: 'Administer' });
@@ -19,4 +19,14 @@ export default class DataProfilePage {
             expect(dataProfileArray) == (columnContents);
     }
 
+
+    async verifyColumnContentSortCorrectly(columName: string): Promise<void>{
+        const dataTable = new Table(this.page);
+        const dataFromLocator = await dataTable.getAllColumnContent(columName, this.tableLocator);
+         const dataSort = dataFromLocator?.slice().sort();
+        console.log(dataFromLocator);
+        console.log(dataSort);
+        const isSorted = JSON.stringify(dataFromLocator) === JSON.stringify(dataSort);
+        console.log(isSorted);
+    }
 }
