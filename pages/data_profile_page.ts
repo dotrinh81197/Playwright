@@ -3,7 +3,7 @@ import Table from "../element/tablehandle";
 
 export default class DataProfilePage {
     readonly administratorHeaderLink: Locator = this.page.getByRole('link', { name: 'Administer' });
-    private tableLocator = 'xpath=//table[@class="GridView"]';
+    readonly tableLocator = 'xpath=//table[@class="GridView"]';
 
     constructor(public readonly page: Page) { }
 
