@@ -12,7 +12,7 @@ test('Verify that user can login specific repository successfully via Dashboard 
     const dashboardMainPage = new DashboardMainPage(page);
     await allure.logStep("Step3: Verify TA Dashboard main page is display");
 
-    await dashboardMainPage.displays();
+    await dashboardMainPage.verifyDashboardPagedisplays();
 
 });
 
@@ -21,11 +21,9 @@ test('Verify that user fails to login specific repository successfully via Dashb
 
     await loginPage.gotoLoginPage();
     await loginPage.login('invalid', 'invalid');
- 
-    page.once('dialog', dialog => {
-        expect.soft(dialog.message().trim()).toEqual("Username or password is invalid");
-        dialog.dismiss();
-      })
+    const message = "Username or password is invalid";
+    await loginPage.verifyModalMessage(message);
+
 });
 
 

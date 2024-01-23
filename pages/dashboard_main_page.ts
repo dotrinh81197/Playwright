@@ -21,7 +21,7 @@ export default class DashboardMainPage {
 
   constructor(public page: Page) { }
 
-  async displays(): Promise<void> {
+  async verifyDashboardPagedisplays(): Promise<void> {
     await expect(this.page.locator('#main-menu li.active a.active')).toHaveText('Execution Dashboard');
   }
 

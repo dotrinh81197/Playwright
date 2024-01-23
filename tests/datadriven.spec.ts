@@ -15,10 +15,8 @@ for (const user of testData) {
         await allure.logStep("Step2: Login with invalid credential");
         await loginPage.login(user.username, user.password);
        
-        page.once('dialog', dialog => {
-            expect.soft(dialog.message().trim()).toEqual(user.message);
-            dialog.dismiss();
-          })
+        await loginPage.verifyModalMessage(user.message);
+
     
     });
 }

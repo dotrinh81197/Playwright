@@ -17,7 +17,7 @@ test('Verify that "Public" pages can be visible and accessed by all users of wor
     const utitlities = new Utilities();
     const newPageName = utitlities.getRandomPageName(7);
     const dashboardMainPage = new DashboardMainPage(page);
-    await dashboardMainPage.displays();
+    await dashboardMainPage.verifyDashboardPagedisplays();
     await dashboardMainPage.addPage(newPageName);
 
     await dashboardMainPage.verifyNewPageCreated(newPageName);

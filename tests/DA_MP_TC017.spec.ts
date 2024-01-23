@@ -17,7 +17,7 @@ test('Verify that user can remove any main parent page except "Overview" page su
     const utitlities = new Utilities();
     const pageHasChild = utitlities.getRandomPageName(7);
     const dashboardMainPage = new DashboardMainPage(page);
-    await dashboardMainPage.displays();
+    await dashboardMainPage.verifyDashboardPagedisplays();
     await dashboardMainPage.addPage(pageHasChild);
 
     const childPage = utitlities.getRandomPageName(8);

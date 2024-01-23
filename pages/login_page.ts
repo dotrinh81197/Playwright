@@ -31,4 +31,11 @@ export default class LoginPage {
         await this.enterPassword(password)
         await this.loginBtn.click();
     }
+
+    async verifyModalMessage(message: string){
+     this.page.once('dialog', dialog => {
+            expect.soft(dialog.message().trim()).toEqual(message);
+            dialog.dismiss();
+        })
+    }
 }

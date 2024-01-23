@@ -31,6 +31,21 @@ npx playwright install
 
 ## Resources
 
+## Run allure report
+Installation allure-playwright
+```Shell
+ npm i -D @playwright/test allure-playwright 
+ npm install -g allure-commandline --save dev
+# Run Test
+npx playwright test --reporter=line,allure-playwright
+
+# Generate Allure Report:
+ allure generate allure-results -o allure-report --clean
+# Open Allure Report:
+ allure open allure-report
+
+```
+
 * [Documentation](https://playwright.dev/docs/intro)
 * [API reference](https://playwright.dev/docs/api/class-playwright/)
 * [Contribution guide](CONTRIBUTING.md)
