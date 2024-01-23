@@ -2,8 +2,7 @@ import { Locator, expect, test } from '@playwright/test';
 import LoginPage from '../pages/login_page';
 import DashboardMainPage from '../pages/dashboard_main_page';
 import DataProfilePage from '../pages/data_profile_page';
-import fs from 'fs';
-import path from 'path';
+import dataProfile from'../data/credentile.json';
 
 test.beforeEach(async ({ page }) => {
 
@@ -13,16 +12,13 @@ test.beforeEach(async ({ page }) => {
   await loginPage.login('administrator', '');
 });
 
-const testDataPath = '../data/dataProfile.json';
-const testData = JSON.parse(fs.readFileSync(path.resolve(__dirname, testDataPath), 'utf8'));
-
 test('Verify that "Public" pages can be visible and accessed by all users of working repository', async ({ page }) => {
   const dashboardMainPage = new DashboardMainPage(page);
   await dashboardMainPage.gotoDataProfilePage();
   const dataProfilePage = new DataProfilePage(page);
-  const dataArrayvalue = Object.values(testData[0]);
+  const dataProfileValue = Object.values(dataProfile[0]);
 
-  await dataProfilePage.verifyDataProfileContent('Data Profile', dataArrayvalue);
+  await dataProfilePage.verifyDataProfileContent('Data Profile', dataProfileValue);
 
 
 });
