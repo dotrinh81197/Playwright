@@ -9,7 +9,7 @@ export default class LoginPage {
 
 
     async gotoLoginPage(): Promise<void> {
-        await this.page.goto('http://localhost/TADashboard/login.jsp');
+        await this.page.goto('/TADashboard/login.jsp');
 
     }
 

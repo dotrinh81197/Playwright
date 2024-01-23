@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import LoginPage from '../pages/login_page';
 import DashboardMainPage from '../pages/dashboard_main_page';
+import Utilities from '../utitlities';
 
 test.beforeEach(async ({ page }) => {
 
@@ -13,13 +14,13 @@ test.beforeEach(async ({ page }) => {
 
 test('Verify that user can remove any main parent page except "Overview" page successfully and the order of pages stays persistent as long as there is not children page under it', async ({ page }) => {
 
-    const randomstring = require("randomstring");
-    const pageHasChild = randomstring.generate(5);
+    const utitlities = new Utilities();
+    const pageHasChild = utitlities.getRandomPageName(7);
     const dashboardMainPage = new DashboardMainPage(page);
     await dashboardMainPage.displays();
     await dashboardMainPage.addPage(pageHasChild);
 
-    const childPage = randomstring.generate(7);
+    const childPage = utitlities.getRandomPageName(8);
     await dashboardMainPage.addPage(childPage, pageHasChild);
     const confirmMessage = 'Are you sure you want to remove this page?';
     const errorMessage = "Cannot delete page" + " '" + pageHasChild + "' " + "since it has child page(s).";

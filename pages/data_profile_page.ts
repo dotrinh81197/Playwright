@@ -27,6 +27,6 @@ export default class DataProfilePage {
         console.log(dataFromLocator);
         console.log(dataSort);
         const isSorted = JSON.stringify(dataFromLocator) === JSON.stringify(dataSort);
-        console.log(isSorted);
+       expect(isSorted);
     }
 }
